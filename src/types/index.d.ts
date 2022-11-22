@@ -4,4 +4,4 @@ declare type rowNum = num[]
 
 declare type spaceArr = { [key: string]: number }
 
-declare type resType = { arr: rowNum[]; over?: boolean | undefined }
+declare type resType = { arr: rowNum[]; over?: boolean }

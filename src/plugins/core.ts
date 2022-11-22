@@ -16,7 +16,7 @@ class Core {
    * 初始化
    * @returns
    */
-  init() {
+  init(): resType {
     this.randomSpace()
     this.randomSpace()
     return {
@@ -28,7 +28,7 @@ class Core {
    * 向左移动
    * @returns
    */
-  move_left() {
+  move_left(): resType {
     // 遍历每一行
     for (let i = 0; i < this.matrix.length; i++) {
       this.zero_to_end(this.matrix[i])
@@ -44,7 +44,7 @@ class Core {
    * 向右移动
    * @returns
    */
-  move_right() {
+  move_right(): resType {
     let arr: rowNum = []
     // 遍历每一行
     for (let i = 0; i < this.matrix.length; i++) {
@@ -65,7 +65,7 @@ class Core {
    * 向上移动
    * @returns
    */
-  move_up() {
+  move_up(): resType {
     this.transpose()
     this.move_left()
     this.transpose()
@@ -79,7 +79,7 @@ class Core {
    * 向下移动
    * @returns
    */
-  move_down() {
+  move_down(): resType {
     this.transpose()
     this.move_right()
     this.transpose()
@@ -90,37 +90,11 @@ class Core {
   }
 
   /**
-   * 游戏结束
-   * @returns
-   */
-  game_over() {
-    let gameOver = false
-    for (let i = 0; i < this.matrix.length; i++) {
-      for (let j = 0; j < this.matrix[i].length; j++) {
-        if (this.matrix[i][j] === 0) {
-          gameOver = false
-          return gameOver
-        }
-        if (this.matrix[i][j] === this.matrix[i][j + 1]) {
-          gameOver = false
-          return gameOver
-        }
-        if (this.matrix[i][j] === this.matrix[i + 1]?.[j]) {
-          gameOver = false
-          return gameOver
-        }
-      }
-    }
-    gameOver = true
-    return gameOver
-  }
-
-  /**
    * 0元素移动到末尾
    * @param arr
    * @returns
    */
-  private zero_to_end(arr: rowNum) {
+  private zero_to_end(arr: rowNum): rowNum {
     // 倒序遍历
     for (let i = arr.length - 1; i >= 0; i--) {
       // 发现0删除，末尾添加0
@@ -137,7 +111,7 @@ class Core {
    * @param arr
    * @returns
    */
-  private merge(arr: rowNum) {
+  private merge(arr: rowNum): rowNum {
     // 正序遍历 arr.length - 1避免越界
     for (let i = 0; i < arr.length - 1; i++) {
       // 对比相邻两个元素是否相等，相等则合并
@@ -167,7 +141,7 @@ class Core {
    * 找到空白位置
    * @returns
    */
-  private findSpace() {
+  private findSpace(): spaceArr[] {
     const spaceArr: spaceArr[] = []
     for (let r = 0; r < this.matrix.length; r++) {
       for (let c = 0; c < this.matrix[r].length; c++) {
@@ -191,7 +165,7 @@ class Core {
    * 随机空白位置生成数字
    * @returns
    */
-  private randomSpace() {
+  private randomSpace(): boolean {
     const spaceArr = this.findSpace()
     if (spaceArr.length === 0) {
       return this.game_over()
@@ -199,6 +173,34 @@ class Core {
     const space = Math.floor(Math.random() * spaceArr.length)
     const { r, c } = spaceArr[space]
     this.matrix[r][c] = this.randomNum()
+    // 手动false
+    return false
+  }
+
+  /**
+   * 游戏结束
+   * @returns
+   */
+  private game_over(): boolean {
+    let gameOver = false
+    for (let i = 0; i < this.matrix.length; i++) {
+      for (let j = 0; j < this.matrix[i].length; j++) {
+        if (this.matrix[i][j] === 0) {
+          gameOver = false
+          return gameOver
+        }
+        if (this.matrix[i][j] === this.matrix[i][j + 1]) {
+          gameOver = false
+          return gameOver
+        }
+        if (this.matrix[i][j] === this.matrix[i + 1]?.[j]) {
+          gameOver = false
+          return gameOver
+        }
+      }
+    }
+    gameOver = true
+    return gameOver
   }
 }
 
